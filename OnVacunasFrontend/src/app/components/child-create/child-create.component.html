@@ -1,0 +1,19 @@
+<h2>Crear Nuevo Niño</h2>
+<form [formGroup]="childForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Nombre:</label>
+    <input id="name" formControlName="name" />
+  </div>
+  <div>
+    <label for="age">Edad:</label>
+    <input id="age" type="number" formControlName="age" />
+  </div>
+  <div>
+    <label for="municipality">Municipio:</label>
+    <select id="municipalityId" formControlName="municipalityId">
+      <!-- Asegúrate de que `municipalities` es un array -->
+      <option *ngFor="let municipality of municipalities" [value]="municipality.id">{{ municipality.name }}</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="childForm.invalid">Crear Niño</button>
+</form>

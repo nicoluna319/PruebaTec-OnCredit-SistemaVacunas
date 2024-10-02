@@ -1,0 +1,17 @@
+<!-- <h2>Lista de Niños</h2>
+<ul>
+  <li *ngFor="let child of children">
+    {{ child.name }} (Edad: {{ child.age }} años) - Vacunas: 
+    <span *ngIf="child.hasVaccines; else noVaccines">
+      {{ child.vaccines.join(', ') }}
+    </span>
+    <ng-template #noVaccines>No tiene vacunas</ng-template>
+  </li>
+</ul> -->
+
+<h2>Lista de Niños</h2>
+<ul>
+  <li *ngFor="let child of children">
+    <a [routerLink]="['/children', child.id]">{{ child.name }}</a> (Edad: {{ child.age }} años)
+  </li>
+</ul>

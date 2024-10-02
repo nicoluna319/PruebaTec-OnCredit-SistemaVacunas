@@ -1,0 +1,12 @@
+<h2>Detalles del Niño</h2>
+<div *ngIf="child">
+  <p><strong>Nombre:</strong> {{ child.name }}</p>
+  <p><strong>Edad:</strong> {{ child.age }} años</p>
+  <p><strong>Municipio:</strong> {{ child.municipalityName }}</p>
+  <p><strong>Vacunas:</strong>
+    <span *ngIf="child.hasVaccines; else noVaccines">
+      {{ child.vaccines.join(', ') }}
+    </span>
+    <ng-template #noVaccines>No tiene vacunas</ng-template>
+  </p>
+</div>
