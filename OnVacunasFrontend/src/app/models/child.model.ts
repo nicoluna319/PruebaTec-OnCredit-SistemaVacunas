@@ -4,6 +4,8 @@ export interface Child {
     age: number;
     hasVaccines: boolean;
     municipalityName: string;
+    departmentId: string;
     vaccines: string[];  
+    municipalityId: string;
   }
   

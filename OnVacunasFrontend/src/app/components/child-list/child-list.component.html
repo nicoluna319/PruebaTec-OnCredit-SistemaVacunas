@@ -1,17 +1,71 @@
-<!-- <h2>Lista de Niños</h2>
-<ul>
-  <li *ngFor="let child of children">
-    {{ child.name }} (Edad: {{ child.age }} años) - Vacunas: 
-    <span *ngIf="child.hasVaccines; else noVaccines">
-      {{ child.vaccines.join(', ') }}
-    </span>
-    <ng-template #noVaccines>No tiene vacunas</ng-template>
-  </li>
-</ul> -->
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Lista de Niños</h1>
 
-<h2>Lista de Niños</h2>
-<ul>
-  <li *ngFor="let child of children">
-    <a [routerLink]="['/children', child.id]">{{ child.name }}</a> (Edad: {{ child.age }} años)
-  </li>
-</ul>
+  <!-- Botón para crear un nuevo niño -->
+  <div class="mb-4 text-right">
+    <button (click)="createChild()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out">
+      Crear Niño
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow-lg rounded-lg">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="py-3 px-6 text-left text-sm sm:text-base">Nombre</th>
+          <th class="py-3 px-6 text-left text-sm sm:text-base">Edad</th>
+          <th class="py-3 px-6 text-left text-sm sm:text-base">Municipio</th>
+          <th class="py-3 px-6 text-left text-sm sm:text-base">Vacunas</th> <!-- Nueva columna de Vacunas -->
+          <th class="py-3 px-6 text-left text-sm sm:text-base">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let child of children" class="bg-gray-100 border-b hover:bg-gray-200 transition-all duration-200 ease-in-out">
+          <td class="py-2 px-4 text-sm sm:text-base">{{ child.name }}</td>
+          <td class="py-2 px-4 text-sm sm:text-base">{{ child.age }}</td>
+          <td class="py-2 px-4 text-sm sm:text-base">{{ child.municipalityName }}</td>
+          <td class="py-2 px-4 text-sm sm:text-base">
+            <span *ngIf="child.vaccines && child.vaccines.length > 0; else noVaccines">{{ child.vaccines.join(', ') }}</span>
+            <ng-template #noVaccines>Ninguna</ng-template>
+          </td>
+          <td class="py-2 px-4 flex space-x-2">
+            <button (click)="viewChildDetails(child.id)" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded transition-colors duration-300 ease-in-out">Ver Detalles</button>
+            <button (click)="updateChild(child.id)" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors duration-300 ease-in-out">Editar</button>
+            <button (click)="deleteChild(child.id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition-colors duration-300 ease-in-out">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Botón para cargar el resumen de niños por municipio -->
+  <div class="mt-4">
+    <button (click)="loadChildrenSummary()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out">
+      Ver Resumen por Municipio
+    </button>
+  </div>
+
+  <div *ngIf="childrenSummary.length > 0" class="mt-4">
+    <h2 class="text-xl font-bold mb-4">Resumen de Niños por Municipio</h2>
+    <ul>
+      <li *ngFor="let summary of childrenSummary">
+        {{ summary.municipalityName }}: {{ summary.totalChildren }} niños, {{ summary.vaccinatedChildren }} vacunados
+      </li>
+    </ul>
+  </div>
+  
+
+  <!-- Campo para seleccionar el municipio y obtener el promedio de edad -->
+  <div class="mt-4">
+    <label for="municipality" class="block mb-2">Selecciona un municipio para ver el promedio de edad:</label>
+    <input type="number" [(ngModel)]="selectedMunicipalityId" placeholder="ID del municipio" class="border border-gray-300 p-2 rounded-lg w-full">
+    <button (click)="loadAverageAge()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-300 ease-in-out mt-2">
+      Ver Promedio de Edad
+    </button>
+  </div>
+
+  <!-- Mostrar el promedio de edad -->
+  <div *ngIf="averageAge !== null" class="mt-4">
+    <h2 class="text-xl font-bold">Promedio de Edad: {{ averageAge }}</h2>
+  </div>
+</div>

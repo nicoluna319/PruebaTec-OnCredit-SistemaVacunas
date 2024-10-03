@@ -1,5 +1,5 @@
 <div class="container mx-auto p-6 max-w-lg">
-  <h2 class="text-2xl font-bold mb-6 text-center">Crear Nuevo Niño</h2>
+  <h2 class="text-2xl font-bold mb-6 text-center">Editar Niño</h2>
 
   <form [formGroup]="childForm" (ngSubmit)="onSubmit()" class="space-y-4">
     <!-- Nombre -->
@@ -36,18 +36,16 @@
       <label for="municipality" class="mb-2 text-sm font-medium text-gray-700">Municipio:</label>
       <select id="municipalityId" formControlName="municipalityId"
         class="border border-gray-300 p-2 rounded-lg w-full focus:ring focus:ring-blue-200 focus:border-blue-500">
-        <option *ngFor="let municipality of municipalities" [value]="municipality.id">
-          {{ municipality.name }}
-        </option>
+        <option *ngFor="let municipality of municipalities" [value]="municipality?.id">{{ municipality?.name }}</option>
       </select>
     </div>
 
-    <!-- Botón de envío -->
+    <!-- Botón de actualización -->
     <div class="text-center">
       <button type="submit"
         [disabled]="childForm.invalid"
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out">
-        Crear Niño
+        class="bg-green-500 text-white px-4 py-2 rounded-lg w-full hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-300 ease-in-out">
+        Actualizar Niño
       </button>
     </div>
   </form>

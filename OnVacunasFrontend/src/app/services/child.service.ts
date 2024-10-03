@@ -18,21 +18,47 @@ export class ChildService {
     return this.childrenUpdated.asObservable();
   }
 
-  getChildren(): Observable<Child[]> {
-    return this.http.get<{ content: Child[] }>(this.apiUrl).pipe(
-      map(response => response.content)
-    );
+  // Obtener todos los niños con paginación
+  getChildren(page: number, size: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?page=${page}&size=${size}`);
   }
 
-  createChild(child: Partial<Child>): Observable<Child> {
-    return this.http.post<Child>(this.apiUrl, child).pipe(
-      tap(() => this.childrenUpdated.next())  // Emitir evento de actualización
-    );
+
+// Obtener un niño por ID
+  getChildById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  // Método para obtener un niño por ID
-  getChildById(id: number): Observable<Child> {
-    return this.http.get<Child>(`${this.apiUrl}/${id}`);
+  // Crear un niño
+  createChild(child: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, child);
+  }
+
+  // Actualizar los datos de un niño por ID
+  updateChild(id: number, child: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, child);
+  }
+
+  // Eliminar un niño por ID
+  deleteChild(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+ // Método para asociar una vacuna a un niño
+ applyVaccineToChild(childId: number, vaccineId: number): Observable<any> {
+  const url = `http://localhost:8080/api/v1/children/${childId}/apply-vaccine/${vaccineId}`;
+  console.log('Llamando a la URL:', url);  // Depurar la URL construida
+  return this.http.post(url, {});
+}
+
+  // Obtener el resumen de niños agrupados por municipio
+  getChildrenSummaryByMunicipality(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/summary`);
+  }
+
+  // Obtener el promedio de edad de los niños por municipio
+  getAverageAgeByMunicipality(municipalityId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/average-age/${municipalityId}`);
   }
 
 }

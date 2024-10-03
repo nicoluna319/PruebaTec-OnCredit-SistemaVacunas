@@ -1,0 +1,25 @@
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Lista de Municipios por Departamento</h1>
+  
+    <div class="mb-4">
+      <label class="font-bold">Selecciona un departamento:</label>
+      <select [(ngModel)]="selectedDepartmentId" (change)="loadMunicipalities(selectedDepartmentId)" class="border rounded p-2">
+        <option value="">Seleccione un departamento</option>
+        <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+      </select>
+    </div>
+  
+    <table class="min-w-full bg-white shadow-md rounded-lg">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="py-2">Nombre del Municipio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let municipality of municipalities" class="bg-gray-100 border-b">
+          <td class="py-2 px-4">{{ municipality.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

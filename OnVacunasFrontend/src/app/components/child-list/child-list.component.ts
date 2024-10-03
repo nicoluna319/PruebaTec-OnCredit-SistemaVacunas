@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Child } from 'src/app/models/child.model';
 import { ChildService } from 'src/app/services/child.service';
@@ -11,45 +12,89 @@ import { ChildService } from 'src/app/services/child.service';
 export class ChildListComponent implements OnInit, OnDestroy {
 
   children: Child[] = [];
+  childrenSummary: any[] = [];
+  averageAge: number | null = null;
+  selectedMunicipalityId: number | null = null;
   private childrenUpdatedSub: Subscription | undefined;
 
-  constructor(private childService: ChildService) { }
+  constructor(private childService: ChildService, private router: Router) { }
 
   ngOnInit(): void {
-
-    // Cargar la lista de niños
     this.loadChildren();
+  }
 
-    
-
-
-    this.childService.getChildren().subscribe({
-      next: (data: Child[]) => {
-        this.children = data;
+  // Cargar la lista de niños
+  loadChildren(): void {
+    this.childService.getChildren(0, 10).subscribe({
+      next: (data) => {
+        this.children = data['content']; // Asumiendo que el backend retorna un paginado
       },
       error: (error) => {
-        console.error('Error al obtener los niños:', error);
+        console.error('Error al cargar los niños:', error);
       }
     });
   }
 
-    // Método para cargar la lista de niños
-    loadChildren(): void {
-      this.childService.getChildren().subscribe({
-        next: (data: Child[]) => {
-          this.children = data;
+  // Obtener el resumen de niños agrupados por municipio
+  loadChildrenSummary(): void {
+    this.childService.getChildrenSummaryByMunicipality().subscribe({
+      next: (data) => {
+        this.childrenSummary = data;
+        console.log('Resumen de niños por municipio:', this.childrenSummary);
+      },
+      error: (error) => {
+        console.error('Error al obtener el resumen de niños:', error);
+      }
+    });
+  }
+
+  // Obtener el promedio de edad por municipio
+  loadAverageAge(): void {
+    if (this.selectedMunicipalityId) {
+      this.childService.getAverageAgeByMunicipality(this.selectedMunicipalityId).subscribe({
+        next: (data: number) => {
+          this.averageAge = data;
+          console.log(`Promedio de edad para el municipio ${this.selectedMunicipalityId}:`, this.averageAge);
         },
         error: (error) => {
-          console.error('Error al obtener los niños:', error);
+          console.error('Error al obtener el promedio de edad:', error);
         }
       });
     }
-  
-    ngOnDestroy(): void {
+  }
 
-      if (this.childrenUpdatedSub) {
-        this.childrenUpdatedSub.unsubscribe();
-      }
+  // Redirigir a la página de creación de un niño
+  createChild(): void {
+    this.router.navigate(['/children/create']);
+  }
+
+  // Eliminar un niño
+  deleteChild(childId: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este niño?')) {
+      this.childService.deleteChild(childId).subscribe(
+        () => {
+          this.loadChildren(); // Recargar la lista tras eliminar
+        },
+        (error) => {
+          console.error('Error al eliminar el niño:', error);
+        }
+      );
     }
+  }
 
+  // Redirigir al detalle de un niño
+  viewChildDetails(childId: number): void {
+    this.router.navigate([`/children/${childId}`]);
+  }
+
+  // Navegar a la página de actualización de un niño
+  updateChild(childId: number): void {
+    this.router.navigate([`/children/update/${childId}`]);
+  }
+
+  ngOnDestroy(): void {
+    if (this.childrenUpdatedSub) {
+      this.childrenUpdatedSub.unsubscribe();
+    }
+  }
 }

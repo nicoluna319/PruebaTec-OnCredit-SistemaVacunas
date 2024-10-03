@@ -1,12 +1,24 @@
-<h2>Detalles del Niño</h2>
-<div *ngIf="child">
-  <p><strong>Nombre:</strong> {{ child.name }}</p>
-  <p><strong>Edad:</strong> {{ child.age }} años</p>
-  <p><strong>Municipio:</strong> {{ child.municipalityName }}</p>
-  <p><strong>Vacunas:</strong>
-    <span *ngIf="child.hasVaccines; else noVaccines">
-      {{ child.vaccines.join(', ') }}
-    </span>
-    <ng-template #noVaccines>No tiene vacunas</ng-template>
-  </p>
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-4">Detalles del Niño</h1>
+  
+  <div *ngIf="child" class="bg-white p-4 shadow-md rounded-lg">
+    <p><strong>Nombre:</strong> {{ child.name }}</p>
+    <p><strong>Edad:</strong> {{ child.age }}</p>
+    <p><strong>Municipio:</strong> {{ child.municipalityName }}</p>
+    <p><strong>Vacunas:</strong>
+      <span *ngIf="child.vaccines.length > 0; else noVaccines">
+        {{ child.vaccines.join(', ') }}
+      </span>
+      <ng-template #noVaccines>Ninguna</ng-template>
+    </p>
+  </div>
+
+  <div class="mt-6">
+    <h2 class="text-xl font-bold mb-2">Aplicar Vacuna</h2>
+    <select [(ngModel)]="selectedVaccineId" class="border rounded p-2">
+      <option [value]="null">Selecciona una vacuna</option>
+      <option *ngFor="let vaccine of vaccines" [value]="vaccine.id">{{ vaccine.name }}</option>
+    </select>
+    <button (click)="applyVaccine()" class="bg-green-500 text-white px-4 py-2 rounded ml-2">Aplicar</button>
+  </div>
 </div>

@@ -8,13 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChildListComponent } from './components/child-list/child-list.component';
 import { ChildDetailComponent } from './components/child-detail/child-detail.component';
 import { ChildCreateComponent } from './components/child-create/child-create.component';
+import { MunicipalityListComponent } from './components/municipality-list/municipality-list.component';
+import { ChildEditComponent } from './components/child-edit/child-edit.component';
+import { VaccineService } from './services/vaccine.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChildListComponent,
     ChildDetailComponent,
-    ChildCreateComponent
+    ChildCreateComponent,
+    MunicipalityListComponent,
+    ChildEditComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,7 @@ import { ChildCreateComponent } from './components/child-create/child-create.com
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [VaccineService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
