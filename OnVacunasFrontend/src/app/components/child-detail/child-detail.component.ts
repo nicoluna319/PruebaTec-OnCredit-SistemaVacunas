@@ -16,8 +16,8 @@ export class ChildDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private childService: ChildService,
-    private vaccineService: VaccineService, // Inyectamos el servicio de vacunas
-    private router: Router // Inyecta el Router para la redirección
+    private vaccineService: VaccineService, 
+    private router: Router 
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class ChildDetailComponent implements OnInit {
       this.childService.applyVaccineToChild(this.child.id, this.selectedVaccineId).subscribe({
         next: () => {
           alert('Vacuna aplicada exitosamente');
-          this.router.navigate(['/children']); // Redirigir al listado de niños tras aplicar la vacuna
+          this.router.navigate(['/children']); 
         },
         error: (error) => {
           console.error('Error al aplicar la vacuna:', error);

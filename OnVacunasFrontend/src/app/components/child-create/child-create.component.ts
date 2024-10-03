@@ -76,8 +76,7 @@ export class ChildCreateComponent implements OnInit {
   onSubmit(): void {
     if (this.childForm.valid) {
       const formValue = this.childForm.value;
-      console.log('Payload enviado:', formValue); // Verificar qué se está enviando
-  
+      console.log('Payload enviado:', formValue);
       this.childService.createChild(formValue).subscribe({
         next: (response: any) => {
           console.log('Niño creado exitosamente:', response);

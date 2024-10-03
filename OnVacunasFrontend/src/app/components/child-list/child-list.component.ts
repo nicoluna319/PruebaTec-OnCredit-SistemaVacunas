@@ -27,7 +27,7 @@ export class ChildListComponent implements OnInit, OnDestroy {
   loadChildren(): void {
     this.childService.getChildren(0, 10).subscribe({
       next: (data) => {
-        this.children = data['content']; // Asumiendo que el backend retorna un paginado
+        this.children = data['content']; 
       },
       error: (error) => {
         console.error('Error al cargar los niños:', error);

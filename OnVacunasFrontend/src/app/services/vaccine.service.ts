@@ -12,16 +12,6 @@ export class VaccineService {
 
   constructor(private http: HttpClient) {}
 
-
-  // // Método para asociar una vacuna a un niño
-  // applyVaccineToChild(childId: number, vaccineId: number): Observable<any> {
-  //   const url = `http://localhost:8080/api/v1/children/${childId}/apply-vaccine/${vaccineId}`;
-  //   console.log('Llamando a la URL:', url);  // Depurar la URL construida
-  //   return this.http.post(url, {});
-  // }
-  
-  
-
   getVaccines(): Observable<Vaccine[]> {
     return this.http.get<{ content: Vaccine[] }>(this.apiUrl).pipe(
       map(response => {

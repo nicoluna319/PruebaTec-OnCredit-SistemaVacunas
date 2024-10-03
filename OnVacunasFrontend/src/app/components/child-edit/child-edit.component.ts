@@ -86,7 +86,7 @@ export class ChildEditComponent implements OnInit {
 
   onSubmit(): void {
     if (this.childForm.valid) {
-      console.log('Formulario enviado:', this.childForm.value); // Verifica los valores antes de enviar
+      console.log('Formulario enviado:', this.childForm.value); 
       
       this.childService.updateChild(this.childId, this.childForm.value).subscribe({
         next: (response: any) => {

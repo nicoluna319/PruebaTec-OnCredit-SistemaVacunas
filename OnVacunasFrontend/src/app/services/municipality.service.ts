@@ -9,16 +9,9 @@ import { Municipality, MunicipalityResponse } from '../models/municipality.model
 })
 export class MunicipalityService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/municipalities'; // URL del backend
+  private apiUrl = 'http://localhost:8080/api/v1/municipalities'; 
 
   constructor(private http: HttpClient) { }
-
-  // getMunicipalities(): Observable<any[]> {
-  //   // Extraer la propiedad `content` del objeto devuelto por el backend
-  //   return this.http.get<{ content: any[] }>(this.apiUrl).pipe(
-  //     map(response => response.content) // Extraemos solo el array `content`
-  //   );
-  // }
 
     // Obtener todos los municipios
     getMunicipalities(): Observable<any[]> {
